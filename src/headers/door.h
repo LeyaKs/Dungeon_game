@@ -10,11 +10,10 @@ class Door: public Construction {
     private:
         type_of_door type;
     public:
-        Door() = default;
+        Door(): type(type_of_door::closed) {};
+        Door (type_of_door _type): type(_type) {};
         void set_type(type_of_door);
-        type_of_door get_type() const;
-        void close_door();
-        void open_door();
+        // type_of_door get_type() const;
         ~Door() = default;
 };
 

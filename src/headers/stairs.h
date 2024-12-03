@@ -10,11 +10,9 @@ class Stairs: public Construction {
         type_of_stairs type;
     public:
         Stairs() = default;
+        Stairs(type_of_stairs _type): type(_type) {};
         void set_type(type_of_stairs);
         type_of_stairs get_type() const;
-
-        void go_up();
-        void go_down();
 
         ~Stairs() = default;
 };

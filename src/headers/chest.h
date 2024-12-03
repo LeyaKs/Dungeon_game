@@ -3,18 +3,19 @@
 
 #include "object.h"
 #include "entity.h"
+#include <memory>
 
 class Chest: public Entity {
     private:
         int level_padlock;
-        Object *object;
+        std::shared_ptr<Object> object;
     public:
         Chest() = default;
         void set_level_padlock(int);
-        void set_object(Object *);
+        void set_object(std::shared_ptr<Object>);
         int get_level_padlock() const;
-        Object *get_object() const;
-        void try_open();
+
+        std::shared_ptr<Object> try_open(int);
         ~Chest() = default;
 };
 

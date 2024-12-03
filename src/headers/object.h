@@ -8,9 +8,10 @@ class Object {
         std::string name;
     public:
         Object() = default;
+        Object(std::string _name): name(_name) {};
         void set_name(std::string);
         std::string get_name() const;
-        ~Object() = default;
+        virtual ~Object() = default;
 };
 
 #endif

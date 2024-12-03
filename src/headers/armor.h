@@ -11,6 +11,7 @@ class Armor: public Object {
         int protection;
     public:
         Armor() = default;
+        Armor(type_of_armor _type, int _protection): Object(), type(_type), protection(_protection) {};
         void set_type(type_of_armor);
         void set_protection(int);
         type_of_armor get_type() const;

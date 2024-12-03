@@ -11,7 +11,7 @@ class Construction: public Entity {
         Construction() = default;
         void set_name(std::string);
         std::string get_name() const;
-        ~Construction() = default;
+        virtual ~Construction() = default;
 };
 
 #endif

@@ -4,8 +4,6 @@
 #include "construction.h"
 
 class Floor: public Construction {
-    public:
-        void go_to_cell();
 };
 
 #endif
