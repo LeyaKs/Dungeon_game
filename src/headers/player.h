@@ -8,9 +8,11 @@
 #include "potion.h"
 #include "point.h"
 #include "lock_picks.h"
+#include "entity.h"
+#include "chest.h"
+#include "door.h"
 
-
-class Player {
+class Player: public Entity{
     private:
         int experience;
         Characteristics characteristics;
@@ -21,7 +23,10 @@ class Player {
         int count_lock_picks;
     public:
         Player() = default;
-        Player(int _experience, Characteristics _characteristics, std::shared_ptr<Weapon> _weapon, std::vector<std::shared_ptr<Armor>> _armor, std::vector<std::shared_ptr<Potion>> _potions, int _max_potions, int _count_lock_picks);
+        Player(Point, int, Characteristics, std::shared_ptr<Weapon>,
+            std::vector<std::shared_ptr<Armor>>, 
+            std::vector<std::shared_ptr<Potion>>,
+            int, int);
         void set_experience(int);
         void set_characteristics(Characteristics);
         void set_weapon(std::shared_ptr<Weapon>);
@@ -36,13 +41,16 @@ class Player {
         std::vector<std::shared_ptr<Potion>> get_potions() const;
         int get_max_poitions() const;
         int get_count_lock_picks() const;
-        // std::unique_ptr<Weapon> get_weapon() const;
+        std::shared_ptr<Weapon> get_weapon() const;
 
         void take_object(std::shared_ptr<Object>);
-        void drink_potion(std::shared_ptr<Potion>);
+        void drink_potion(int);
         int generate_damage();
         bool take_damage(int);
+        std::shared_ptr<Object> open_chest(std::shared_ptr<Chest>);
         void improve_characteristic(std::shared_ptr<Characteristic>, int);
+        bool move(int, int, int, int);
+        bool open_door(Door);
         ~Player() = default;
 };
 

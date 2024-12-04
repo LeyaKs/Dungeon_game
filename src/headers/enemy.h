@@ -10,6 +10,7 @@ using std::string;
 
 enum class type_feature{humanoid, insect, animal, undead, demon, icy, dwarf};
 
+
 class Enemy: public Entity{
     private:
         string name;
@@ -46,7 +47,6 @@ class Enemy: public Entity{
 
         void take_damage(int _damage);
         void do_damage(Player player, int _damage);
-        // void disappear()
 
         ~Enemy() = default;
 };

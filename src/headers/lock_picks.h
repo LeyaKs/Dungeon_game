@@ -8,7 +8,7 @@ class LockPicks: public Object {
         int count;
     public:
         LockPicks() = default;
-        LockPicks(int _count): Object(), count(_count) {};
+        LockPicks(std::string _name, int _count): Object(_name), count(_count) {};
         void set_count(int);
         int get_count() const;
         ~LockPicks() = default;

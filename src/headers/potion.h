@@ -7,12 +7,13 @@
 
 class Potion: public Object {
     private:
-        std::string name;
         Characteristics characteristics;
         std::vector<int> values;
     public:
         Potion() = default;
-        Potion(std::string _name, Characteristics _characteristics, std::vector<int> _values): Object(), name(_name), characteristics(_characteristics), values(_values) {};
+        Potion(std::string _name, Characteristics _characteristics, 
+            std::vector<int> _values): Object(_name),
+            characteristics(_characteristics), values(_values) {};
         
         void set_characteristics(Characteristics);
         void set_values(std::vector<int>);
@@ -23,7 +24,7 @@ class Potion: public Object {
         std::string get_name() const;
 
         bool operator==(const std::shared_ptr<Potion> other) const {
-            return this->name == other->get_name();
+            return this->get_name() == other->get_name();
         }
         ~Potion() = default;
 };

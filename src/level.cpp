@@ -1,5 +1,10 @@
 #include "headers/level.h"
 
-Matrix<Cell> Level::get_map() const {
+
+void Level::set_map(Matrix _map) {
+    map = _map;
+}
+
+Matrix Level::get_map() const {
     return map;
 }

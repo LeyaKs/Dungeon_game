@@ -1,5 +1,4 @@
 #include "headers/cell.h"
-#include "headers/cell.h"
 
 void Cell::set_point(Point _point) {
     point = _point;

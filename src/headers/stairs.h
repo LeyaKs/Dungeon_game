@@ -10,7 +10,7 @@ class Stairs: public Construction {
         type_of_stairs type;
     public:
         Stairs() = default;
-        Stairs(type_of_stairs _type): type(_type) {};
+        Stairs(Point _point, type_of_stairs _type): Construction(_point), type(_type) {};
         void set_type(type_of_stairs);
         type_of_stairs get_type() const;
 

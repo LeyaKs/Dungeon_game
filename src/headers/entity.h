@@ -11,7 +11,7 @@ class Entity {
         Entity(Point coords) : point(coords) {};
         void set_point(Point);
         Point get_point() const;
-        ~Entity() = default;
+        virtual ~Entity() = default;
 };
 
 #endif

@@ -6,14 +6,16 @@
 #include "weapon.h"
 #include "enemy.h"
 
-enum class characteristic{psychological, slipper, snares, illuminated, prayerful, fiery, gigantic};
+enum class characteristic{psychological, slipper, snares,
+                         illuminated, prayerful, fiery, gigantic};
 
 class EnchantedWeapon: public Weapon {
     private:
         characteristic type;
     public:
         EnchantedWeapon() = default;
-        EnchantedWeapon(characteristic _type): Weapon(), type(_type){};
+        EnchantedWeapon(std::string _name, int _damage, type_value _value, 
+            characteristic _type): Weapon(_name, _damage, _value), type(_type){};
         int generate_damage(std::shared_ptr<Enemy>) override;
         ~EnchantedWeapon() = default;
 };

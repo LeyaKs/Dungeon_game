@@ -15,14 +15,15 @@ class Weapon: public Object {
         type_value value;
     public:
         Weapon() = default;
-        Weapon(int _damage, type_value _value): Object(), damage(_damage), value(_value) {};
+        Weapon(std::string _name, int _damage, type_value _value): Object(_name),
+            damage(_damage), value(_value) {};
         void set_damage(int);
         void set_value(type_value);
 
         int get_damage() const;
         type_value get_type() const;
         virtual int generate_damage(std::shared_ptr<Enemy> = nullptr);
-        ~Weapon() = default; 
+        virtual ~Weapon() = default; 
 };
 
 #endif

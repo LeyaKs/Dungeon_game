@@ -9,7 +9,7 @@ void Potion::set_values(std::vector<int> _values) {
 }
 
 void Potion::set_name(std::string _name) {
-    name = _name;
+    this->set_name(_name);
 }
 
 Characteristics Potion::get_characteristics() const {
@@ -21,5 +21,5 @@ std::vector<int> Potion::get_values() const {
 }
 
 std::string Potion::get_name() const {
-    return name;
+    return this->get_name();
 }

@@ -11,6 +11,8 @@ class Chest: public Entity {
         std::shared_ptr<Object> object;
     public:
         Chest() = default;
+        Chest(Point _entity, int _level_padlock, std::shared_ptr<Object> _object):
+                Entity(_entity), level_padlock(_level_padlock), object(_object) {};
         void set_level_padlock(int);
         void set_object(std::shared_ptr<Object>);
         int get_level_padlock() const;

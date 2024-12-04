@@ -1,5 +1,4 @@
 #include "headers/characteristic.h"
-#include "headers/characteristic.h"
 
 void Characteristic::set_type(type_of_characteristic _type) {
     type = _type;

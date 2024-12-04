@@ -5,12 +5,9 @@
 #include "entity.h"
 
 class Construction: public Entity {
-    private:
-        std::string name;
     public:
         Construction() = default;
-        void set_name(std::string);
-        std::string get_name() const;
+        Construction(Point _entity): Entity(_entity) {};
         virtual ~Construction() = default;
 };
 

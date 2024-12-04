@@ -5,13 +5,17 @@
 #define MIN_DAMAGE 5
 #define AGILITY 10
 
-Player::Player(int _experience, Characteristics _characteristics, std::shared_ptr<Weapon> _weapon, std::vector<std::shared_ptr<Armor>> _armor, std::vector<std::shared_ptr<Potion>> _potions, int _max_potions, int _count_lock_picks) {
-    experience = _experience;
-    characteristics = _characteristics;
-    weapon = std::move(_weapon);
-    armor = std::move(_armor);
-    potions = std::move(_potions);
-    count_lock_picks = _count_lock_picks;
+Player::Player(Point _point, int _experience, Characteristics _characteristics,
+    std::shared_ptr<Weapon> _weapon, std::vector<std::shared_ptr<Armor>> _armor,
+    std::vector<std::shared_ptr<Potion>> _potions,
+    int _max_potions, int _count_lock_picks):
+    Entity(_point),
+    experience(_experience),
+    characteristics(_characteristics),
+    count_lock_picks(_count_lock_picks) {
+        weapon = std::move(_weapon);
+        armor = std::move(_armor);
+        potions = std::move(_potions);
 }
 
 void Player::set_experience(int _experience) {
@@ -66,6 +70,10 @@ int Player::get_count_lock_picks() const {
     return count_lock_picks;
 }
 
+std::shared_ptr<Weapon> Player::get_weapon() const {
+    return weapon;
+}
+
 void Player::take_object(std::shared_ptr<Object> object) {
     if (object) {
         if (auto _weapon = std::dynamic_pointer_cast<Weapon>(object)) {
@@ -92,30 +100,56 @@ void Player::take_object(std::shared_ptr<Object> object) {
     }
 }
 
-void Player::drink_potion(std::shared_ptr<Potion> _potion) {
+void Player::drink_potion(int number) {
+    std::shared_ptr<Potion> _potion = potions[number];
     for (int i = 0; i < _potion->get_characteristics().get_count(); ++i) {
-        improve_characteristic(_potion->get_characteristics().get_characteristics()[i], _potion->get_values()[i]);
+        improve_characteristic(_potion->get_characteristics().get_characteristics()[i],
+                                _potion->get_values()[i]);
     }
 }
 
 int Player::generate_damage() {
     if (characteristics.get_characteristic(type_of_characteristic::agility) > AGILITY)
-        return characteristics.get_characteristic(type_of_characteristic::strength);
+        return characteristics.get_characteristic(type_of_characteristic::strength)
+                + (*weapon).generate_damage();
     return MIN_DAMAGE;
 }
 
 bool Player::take_damage(int _damage) {
-    characteristics.set_characteristic(type_of_characteristic::curr_health, characteristics.get_characteristic(type_of_characteristic::curr_health) - _damage);
+    characteristics.set_characteristic(type_of_characteristic::curr_health,
+        characteristics.get_characteristic(type_of_characteristic::curr_health) - 
+        _damage);
     if (characteristics.get_characteristic(type_of_characteristic::curr_health) <= 0)
         return false;
     return true;
 }
 
-void Player::improve_characteristic(std::shared_ptr<Characteristic> _characteristic, int _value) {
+std::shared_ptr<Object> Player::open_chest(std::shared_ptr<Chest> chest) {
+        return (*chest).try_open(characteristics.get_characteristic(
+                type_of_characteristic::agility) * count_lock_picks);
+}
+
+void Player::improve_characteristic(std::shared_ptr<Characteristic> _characteristic,
+                                    int _value) {
     if (_characteristic) {
         int index = characteristics.find_characteristic(_characteristic->get_type());
         if (index >= 0) {
-            characteristics.get_characteristics()[index]->set_value(characteristics.get_characteristics()[index]->get_value() + _value);
+            characteristics.get_characteristics()[index]->set_value(
+                characteristics.get_characteristics()[index]->get_value() + _value);
         }
     }
+}
+
+
+
+bool Player::move(int x, int y, int width, int lenght) {
+    if (x < 0 || x >= width || y < 0 || y >= lenght)
+        return false;
+    return true;
+}
+
+
+bool Player::open_door(Door door) {
+    return (door.get_level_padlock() <= characteristics.get_characteristic(
+                type_of_characteristic::agility) * count_lock_picks);
 }

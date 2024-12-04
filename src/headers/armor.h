@@ -3,7 +3,8 @@
 
 #include "object.h"
 
-enum class type_of_armor{helmet, breastplate, gauntlet, pauldron, greaves, sabaton};
+enum class type_of_armor{helmet, breastplate, gauntlet, pauldron, greaves,
+                        sabaton};
 
 class Armor: public Object {
     private:
@@ -11,7 +12,8 @@ class Armor: public Object {
         int protection;
     public:
         Armor() = default;
-        Armor(type_of_armor _type, int _protection): Object(), type(_type), protection(_protection) {};
+        Armor(std::string _name, type_of_armor _type, int _protection): 
+            Object(_name), type(_type), protection(_protection) {};
         void set_type(type_of_armor);
         void set_protection(int);
         type_of_armor get_type() const;

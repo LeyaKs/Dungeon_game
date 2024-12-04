@@ -3,7 +3,8 @@
 
 #include <string>
 
-enum class type_of_characteristic{strength, agility, endurance, max_health, curr_health};
+enum class type_of_characteristic{strength, agility, endurance,
+                                    max_health, curr_health};
 
 class Characteristic {
     private:
