@@ -13,7 +13,7 @@ class Characteristic {
     public:
         Characteristic() = default;
         void set_type(type_of_characteristic);
-        void set_value(int);
+        void change_value(int);
         type_of_characteristic get_type() const;
         int get_value() const;
         ~Characteristic() = default;

@@ -2,6 +2,28 @@
 #include <random>
 
 
+#define MIN_COUNT_LEVEL 1
+#define MAX_COUNT_LEVEL 10
+#define MIN_LENGHT_LEVEL 2
+#define MAX_LENGHT_LEVEL 10
+#define MIN_WIDTH_LEVEL 3
+#define MAX_WIDTH_LEVEL 10
+
+
+#define PERCENTAGE_CHESTS 0.05
+#define PERCENTAGE_ENEMIES 0.1
+
+
+#define MIN_HEALTH_ENEMY 10
+#define MAX_HEALTH_ENEMY 100
+#define MIN_DAMAGE_ENEMY 1
+#define MAX_DAMAGE_ENEMY 20
+#define MIN_HIT_ENEMY 50
+#define MAX_HIT_ENEMY 95
+#define MIN_EXPERIENCE_ENEMY 5
+#define MAX_EXPERIENCE_ENEMY 100
+
+
 void Game::start() {
     Dungeon dungeon = generate_dungeon();
     Player player = dungeon.get_player();
@@ -35,17 +57,18 @@ void Game::start() {
         if (flag) {
             auto entity = dungeon.get_levels()[dungeon.get_level()].get_map().get_matrix()[x_to_move][y_to_move].get_entity();
             if (std::dynamic_pointer_cast<Chest>(entity.lock())) {
-                std::shared_ptr<Object> object = player.open_chest(std::dynamic_pointer_cast<Chest>(entity.lock()));
-                if(object) {
+                std::shared_ptr<Chest> chest = std::dynamic_pointer_cast<Chest>(entity.lock());
+                std::shared_ptr<Object> object = player.open_chest(chest);
+                if (object) {
                     player.take_object(object);
                 }
             } else if (std::dynamic_pointer_cast<Enemy>(entity.lock())) {
-                Enemy enemy = (*std::dynamic_pointer_cast<Enemy>(entity.lock()));
+                 std::shared_ptr<Enemy> enemy = (std::dynamic_pointer_cast<Enemy>(entity.lock()));
                 //если нажал кнопку удара
                 int damage = player.generate_damage();
-                enemy.take_damage(damage);
-                if (enemy.get_curr_health() > 0)
-                    enemy.do_damage(player, enemy.get_damage());
+                enemy->take_damage(damage);
+                if (enemy->get_curr_health() > 0)
+                    enemy->do_damage(player, enemy->get_damage());
             } else if (std::dynamic_pointer_cast<Door>(entity.lock())) {
                 Door door = (*std::dynamic_pointer_cast<Door>(entity.lock()));
                 player.open_door(door);
@@ -76,10 +99,9 @@ void Game::start() {
 }
 
 Dungeon Game::generate_dungeon() {
-    int level_count = random_value(1, 10);
-    int length = random_value(2, 10);
-    int width = random_value(3, 10);
-    int current_level = 0;
+    int level_count = random_value(MIN_COUNT_LEVEL, MAX_COUNT_LEVEL);
+    int length = random_value(MIN_LENGHT_LEVEL, MAX_LENGHT_LEVEL);
+    int width = random_value(MIN_WIDTH_LEVEL, MAX_WIDTH_LEVEL);
     Dungeon dungeon;
     Player player = generate_player(Point(0, 0));
     std::vector<std::shared_ptr<Enemy>> enemies;
@@ -98,7 +120,7 @@ Dungeon Game::generate_dungeon() {
     return dungeon;
 }
 
-Level Game::generate_level(int length, int width, int lvl, std::vector<std::shared_ptr<Enemy>> enemies) {
+Level Game::generate_level(int length, int width, int lvl, std::vector<std::shared_ptr<Enemy>>& enemies) {
     std::vector<std::vector<Cell>> _matrix(width, std::vector<Cell>(length));
     Matrix matrix;
     matrix.set_matrix(_matrix);
@@ -120,8 +142,10 @@ Level Game::generate_level(int length, int width, int lvl, std::vector<std::shar
             }
         }
     }
-    int chest_count = length * width * 0.05;
-    int enemy_count = random_value(length * width * 0.1 - 1, length * width + 2);
+
+
+    int chest_count = length * width * PERCENTAGE_CHESTS;
+    int enemy_count = random_value(length * width * PERCENTAGE_ENEMIES - 1, length * width * PERCENTAGE_ENEMIES + 2);
     Point point = find_free_point(level, width, length);
     LockPicks lock_picks = generate_lock_picks();
     Chest chest = generate_chest(point);
@@ -141,7 +165,7 @@ Level Game::generate_level(int length, int width, int lvl, std::vector<std::shar
     for (int i = 0; i < enemy_count; ++i) {
         point = find_free_point(level, width, length);
         enemy = generate_enemy(point);
-        level.get_map().get_matrix()[point.x][point.y] = Cell(point, std::make_shared<Enemy>(enemy));
+        level.get_map().get_matrix()[point.x][point.y] = Cell(point, std::make_shared<Enemy>(enemy)); 
         enemies.push_back(std::make_shared<Enemy>(enemy));
     }
     return Level();
@@ -150,28 +174,20 @@ Level Game::generate_level(int length, int width, int lvl, std::vector<std::shar
 
 
 Enemy Game::generate_enemy(Point _point) {
-    int min_health = 10;
-    int max_health = 100;
-    int min_damage = 1;
-    int max_damage = 20;
-    int min_hit = 50;
-    int max_hit = 95;
-    int min_experience = 5;
-    int max_experience = 100;
 
     std::vector<std::string> names = {"Goblin", "Orc", "Skeleton", "Spider", "Ice Golem", "Dwarf Warrior"}; 
     std::string randomName = names[random_value(0, names.size() - 1)];
-    int random_max_health = random_value(min_health, max_health);
-    int random_damage = random_value(min_damage, max_damage);
-    int random_hit = random_value(min_hit, max_hit);
-    int random_experience = random_value(min_experience, max_experience);
+    int random_max_health = random_value(MIN_HEALTH_ENEMY, MAX_HEALTH_ENEMY);
+    int random_damage = random_value(MIN_DAMAGE_ENEMY, MAX_DAMAGE_ENEMY);
+    int random_hit = random_value(MIN_HIT_ENEMY, MAX_HIT_ENEMY);
+    int random_experience = random_value(MIN_EXPERIENCE_ENEMY, MAX_EXPERIENCE_ENEMY);
     type_feature random_feature = static_cast<type_feature>(random_value(0,
                                             static_cast<int>(type_feature::dwarf)));
 
     
-    Armor random_armor = generate_armor();
+    std::shared_ptr<Armor> random_armor = std::make_shared<Armor>(generate_armor());
 
-    return Enemy(_point, randomName, std::max(1, random_max_health), std::max(1, random_max_health),
+    return Enemy(_point, randomName, std::max(1, random_max_health), std::max(1, random_max_health), 
         std::max(0, random_damage), random_hit, random_experience, random_armor, random_feature);
 }
 
@@ -228,8 +244,7 @@ Characteristics Game::generate_characteristics(int count_characteristics, int mi
                 (type_characteristic))!=-1) {
                     type_characteristic = random_value(0, static_cast<int>(type_of_characteristic::curr_health));
         }
-        characteristics.set_characteristic(static_cast<type_of_characteristic>(type_characteristic), 
-                                                        value);
+        characteristics.change_value_characteristic(static_cast<type_of_characteristic>(type_characteristic), value);
         value = random_value(min, max);
     }
     return characteristics;
@@ -266,8 +281,6 @@ Player Game::generate_player(Point _point) {
     Player player;
     player.set_characteristics(generate_characteristics(static_cast<int>(type_of_characteristic::curr_health),
             50, 100));
-    player.set_count_lock_picks(0);
-    player.set_experience(0);
     player.set_max_poitions(random_value(2, 5));
     player.set_weapon(std::make_shared<Weapon>(Weapon("Stick", 5, type_value::ordinary)));
     return player;
@@ -276,7 +289,7 @@ Player Game::generate_player(Point _point) {
 
 
 
-Point Game::find_free_point(Level level, int width, int length) {
+Point Game::find_free_point(const Level& level, int width, int length) {
     int x = random_value(0, width);
     int y = random_value(0, length);
     std::shared_ptr<Entity> entity = level.get_map().get_matrix()[x][y].get_entity().lock();

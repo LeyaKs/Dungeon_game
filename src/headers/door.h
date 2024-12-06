@@ -14,7 +14,7 @@ class Door: public Construction {
         Door(): type(type_of_door::closed) {};
         Door (type_of_door _type, int _lvl): type(_type), level_padlock(_lvl) {};
         void set_type(type_of_door);
-        void set_level_padlock(int);
+        // void set_level_padlock(int);
         type_of_door get_type() const;
         int get_level_padlock() const;
         ~Door() = default;

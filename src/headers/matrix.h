@@ -10,7 +10,7 @@ class Matrix {
     public:
         Matrix() = default;
 
-        void set_matrix(std::vector<std::vector<Cell>>);
+        void set_matrix(const std::vector<std::vector<Cell>>&);
         std::vector<std::vector<Cell>> get_matrix() const;
         ~Matrix() = default;
 };

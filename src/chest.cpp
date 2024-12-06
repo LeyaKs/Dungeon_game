@@ -4,8 +4,8 @@ void Chest::set_level_padlock(int _level_padlock) {
     level_padlock = _level_padlock;
 }
 
-void Chest::set_object(std::shared_ptr<Object> _object) {
-    object = std::move(_object);
+void Chest::set_object(const std::shared_ptr<Object>& _object) {
+    object = _object;
 }
 
 int Chest::get_level_padlock() const {

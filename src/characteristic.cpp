@@ -4,8 +4,8 @@ void Characteristic::set_type(type_of_characteristic _type) {
     type = _type;
 }
 
-void Characteristic::set_value(int _value) {
-    value = _value;
+void Characteristic::change_value(int _value) {
+    value += _value;
 }
 
 

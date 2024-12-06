@@ -4,21 +4,19 @@
 
 
 
-Characteristics::Characteristics(std::vector<std::shared_ptr<Characteristic>> _characteristics) {
-    characteristics = _characteristics;
-} 
+Characteristics::Characteristics(const std::vector<std::shared_ptr<Characteristic>>& _characteristics) :
+    characteristics(_characteristics) {}
 
-void Characteristics::set_characteristic(type_of_characteristic _type, int _value) {
+void Characteristics::change_value_characteristic(type_of_characteristic _type, int _value) {
     int index = 0;
     if (index = find_characteristic(_type) == -1) {
         throw std::out_of_range("Not found");
     }
-    characteristics[index]->set_value(_value);
+    characteristics[index]->change_value(_value);
 }
 
 
-int Characteristics::get_count()
-{
+int Characteristics::get_count() const{
     return characteristics.size();
 }
 
@@ -26,8 +24,7 @@ std::vector<std::shared_ptr<Characteristic>> Characteristics::get_characteristic
     return characteristics;
 }
 
-int Characteristics::get_characteristic(type_of_characteristic _type) const
-{
+int Characteristics::get_characteristic(type_of_characteristic _type) const {
     int index = 0;
     if (index = find_characteristic(_type) == -1) {
         throw std::out_of_range("Not found");

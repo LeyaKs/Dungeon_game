@@ -16,7 +16,7 @@ class EnchantedWeapon: public Weapon {
         EnchantedWeapon() = default;
         EnchantedWeapon(std::string _name, int _damage, type_value _value, 
             characteristic _type): Weapon(_name, _damage, _value), type(_type){};
-        int generate_damage(std::shared_ptr<Enemy>) override;
+        int generate_damage(const std::shared_ptr<Enemy>& enemy) override;
         ~EnchantedWeapon() = default;
 };
 

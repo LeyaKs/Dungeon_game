@@ -20,6 +20,6 @@ type_value Weapon::get_type() const {
 
 
 
-int Weapon::generate_damage(std::shared_ptr<Enemy>) {
+int Weapon::generate_damage(const std::shared_ptr<Enemy>&) {
     return damage * WEAPON_BOOSTER;
 }

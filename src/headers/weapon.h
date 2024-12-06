@@ -22,7 +22,7 @@ class Weapon: public Object {
 
         int get_damage() const;
         type_value get_type() const;
-        virtual int generate_damage(std::shared_ptr<Enemy> = nullptr);
+        virtual int generate_damage(const std::shared_ptr<Enemy>& = nullptr);
         virtual ~Weapon() = default; 
 };
 

@@ -4,7 +4,7 @@ void Cell::set_point(Point _point) {
     point = _point;
 }
 
-void Cell::set_entity(std::weak_ptr<Entity> _entity) {
+void Cell::set_entity(const std::weak_ptr<Entity>& _entity) {
     entity = _entity;
 }
 

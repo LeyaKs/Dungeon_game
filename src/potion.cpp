@@ -1,10 +1,10 @@
 #include "headers/potion.h"
 
-void Potion::set_characteristics(Characteristics _characteristics) {
+void Potion::set_characteristics(const Characteristics& _characteristics) {
     characteristics = _characteristics;
 }
 
-void Potion::set_values(std::vector<int> _values) {
+void Potion::set_values(const std::vector<int>& _values) {
     values =_values;
 }
 

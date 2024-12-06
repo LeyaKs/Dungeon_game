@@ -5,7 +5,6 @@
 #include <vector>
 #include <memory>
 #include "level.h"
-//  #include "player.h"
 
 class Dungeon {
     private:
@@ -17,15 +16,14 @@ class Dungeon {
         int width;
     public:
         Dungeon() = default;
-        Dungeon(Player, std::vector<std::shared_ptr<Enemy>>,
-                int, std::vector<Level>, int, int);
+        Dungeon(const Player&, const std::vector<std::shared_ptr<Enemy>>&, int,
+            const std::vector<Level>&, int, int);
         void set_length(int);
         void set_width(int);
-        void set_levels(std::vector<Level>);
+        void set_levels(const std::vector<Level>&);
         void set_level(int);
-        void set_enemies(std::vector<std::shared_ptr<Enemy>>);
-        void set_player(Player);
-        // void set_cell_type(Point, int, std::shared_ptr<Entity>);
+        void set_enemies(const std::vector<std::shared_ptr<Enemy>>&);
+        void set_player(const Player&);
         int get_length() const;
         int get_width() const;
         int get_level() const;
@@ -35,8 +33,6 @@ class Dungeon {
         std::weak_ptr<Entity> get_cell_type(Point, int) const;
 
 
-        void close_door(std::shared_ptr<Door>);
-        void open_door(std::shared_ptr<Door>);
         ~Dungeon() = default;
 };
 

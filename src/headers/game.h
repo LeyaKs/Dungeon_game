@@ -13,7 +13,7 @@ class Game {
         Game(Dungeon _dungeon): dungeon(_dungeon) {};
 
         void start();
-        Level generate_level(int, int, int, std::vector<std::shared_ptr<Enemy>>);
+        Level generate_level(int, int, int, std::vector<std::shared_ptr<Enemy>>&);
         Enemy generate_enemy(Point);
         Armor generate_armor();
         Chest generate_chest(Point);
@@ -24,7 +24,7 @@ class Game {
         Characteristics generate_characteristics(int, int, int);
         Dungeon generate_dungeon();
 
-        Point find_free_point(Level, int, int);
+        Point find_free_point(const Level&, int, int);
         int random_value(int, int);
         ~Game() = default;
 };
