@@ -14,13 +14,13 @@
 
 class Level {
     private:
-        Matrix/*<Cell>*/ map;
+        Matrix<Cell> map;
     public:
         Level() = default;
-        Level(Matrix/*<Cell>*/ _map): map(_map) {};
+        Level(Matrix<Cell> _map): map(_map) {};
 
-        void set_map(Matrix/*<Cell>*/);
-        Matrix/*<Cell>*/ get_map() const;
+        void set_map(Matrix<Cell>);
+        Matrix<Cell> get_map() const;
         ~Level() = default;
 };
 

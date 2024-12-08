@@ -1,8 +1,15 @@
+#include <iostream>
 #include "headers/matrix.h"
 
-void Matrix::set_matrix(const std::vector<std::vector<Cell>>& _matrix) {
-    matrix = _matrix;
-}
-std::vector<std::vector<Cell>> Matrix::get_matrix() const {
-    return matrix;
+
+int main() {
+    Vector<int> a = {};
+    a.push_back(17);
+    a.push_back(127);
+    a.print_vector();
+    a.pop_back();
+    a.print_vector();
+    static_assert(std::bidirectional_iterator<VectorIter<int, false>>);
+    static_assert(std::bidirectional_iterator<VectorIter<int, true>>);
+    std::cout<<"hi"<<std::endl;
 }

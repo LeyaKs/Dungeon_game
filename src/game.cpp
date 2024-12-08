@@ -121,8 +121,9 @@ Dungeon Game::generate_dungeon() {
 }
 
 Level Game::generate_level(int length, int width, int lvl, std::vector<std::shared_ptr<Enemy>>& enemies) {
-    std::vector<std::vector<Cell>> _matrix(width, std::vector<Cell>(length));
-    Matrix matrix;
+    Matrix<Cell> _matrix;
+    // (width, std::vector<Cell>(length));
+    Matrix<Cell> matrix;
     matrix.set_matrix(_matrix);
     Level level(matrix);
     for (int x = 0; x < width; ++x) {
