@@ -1,6 +1,7 @@
 #include "headers/player.h"
 #include <memory>
 #include <algorithm>
+#include <iostream>
 
 #define MIN_DAMAGE 5
 #define AGILITY 10
@@ -58,7 +59,7 @@ std::vector<std::shared_ptr<Potion>> Player::get_potions() const {
     return potions;
 }
 
-int Player::get_max_poitions() const {
+int Player::get_max_potions() const {
     return max_potions;
 }
 
@@ -70,7 +71,9 @@ std::shared_ptr<Weapon> Player::get_weapon() const {
     return weapon;
 }
 
-
+void Player::change_characteristic(type_of_characteristic name, int _val) {
+    characteristics.change_value_characteristic(name, _val);
+}
 
 void Player::change_experience(int _experience) {
     experience += _experience;
@@ -80,10 +83,12 @@ void Player::change_count_lock_picks(int _count_lock_picks) {
     count_lock_picks = _count_lock_picks;
 }
 
-void Player::take_object(std::shared_ptr<Object>& object) {
+void Player::take_object(std::shared_ptr<Object> object) {
     if (object) {
         if (auto _weapon = std::dynamic_pointer_cast<Weapon>(object)) {
-            if (_weapon) set_weapon(_weapon);
+            if (_weapon) {
+                set_weapon(_weapon);
+            } 
         } else if (auto _armor = std::dynamic_pointer_cast<Armor>(object)) {
             if (_armor) {
                 auto it = std::find_if(armor.begin(), armor.end(),
@@ -101,7 +106,9 @@ void Player::take_object(std::shared_ptr<Object>& object) {
                 }
             }
         } else if (auto lockpicks = std::dynamic_pointer_cast<LockPicks>(object)) {
-            if (lockpicks) count_lock_picks += (*lockpicks).get_count();
+            if (lockpicks) {
+                count_lock_picks += (*lockpicks).get_count();
+            }
         }
     }
 }
@@ -156,5 +163,5 @@ bool Player::move(int x, int y, int width, int lenght) {
 
 bool Player::open_door(Door& door) {
     return (door.get_level_padlock() <= characteristics.get_characteristic(
-                type_of_characteristic::agility) * count_lock_picks * experience);
+                type_of_characteristic::agility) * count_lock_picks + experience);
 }

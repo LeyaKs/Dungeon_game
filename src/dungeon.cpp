@@ -26,8 +26,8 @@ void Dungeon::set_player(const Player& _player) {
     player = _player;
 }
 
-void Dungeon::set_level(int _level) {
-    level = _level;
+void Dungeon::increase_level() {
+    level++;
 }
 
 void Dungeon::set_enemies(const std::vector<std::shared_ptr<Enemy>>& _enemies) {
@@ -43,11 +43,9 @@ int Dungeon::get_width() const {
     return width;
 }
 
-std::weak_ptr<Entity> Dungeon::get_cell_type(Point point, int level) const {
-    return levels[level].get_map().get_matrix()[point.x][point.y].get_entity();
-}
 
-Player Dungeon::get_player() const{
+
+Player& Dungeon::get_player(){
     return player;
 }
 
@@ -55,10 +53,22 @@ int Dungeon::get_level() const {
     return level;
 }
 
-std::vector<std::shared_ptr<Enemy>> Dungeon::get_enemies() const {
+const std::vector<std::shared_ptr<Enemy>>& Dungeon::get_enemies() const {
     return enemies;
 }
 
-std::vector<Level> Dungeon::get_levels() const {
+const std::vector<Level>& Dungeon::get_levels() const {
     return levels;
+}
+
+void Dungeon::move_player(int _x, int _y) {
+    levels[level].map.matrix[player.get_point().x][player.get_point().y].set_entity(std::make_shared<Floor>());
+    player.set_point(Point(_x, _y));
+    levels[level].map.matrix[_x][_y].set_entity(std::make_shared<Player>(player)); 
+}
+
+void Dungeon::disappear(Point _point) {
+    
+    levels[level].map.matrix[_point.x][_point.y] = 
+                Cell(_point, std::make_shared<Floor>());
 }

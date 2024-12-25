@@ -80,13 +80,11 @@ type_feature Enemy::get_feature() const {
 
 
 void Enemy::take_damage(int _damage) {
-    if (curr_health -_damage > 0)
-        decrease_curr_health(_damage);
+    decrease_curr_health(_damage);
 }
 
 void Enemy::do_damage(Player& player, int _damage) {
-    player.get_characteristics().change_value_characteristic(type_of_characteristic::curr_health,
-    -_damage);
+    player.change_characteristic(type_of_characteristic::curr_health, -_damage);
 }
 
 std::shared_ptr<Armor> Enemy::drop_armor() {

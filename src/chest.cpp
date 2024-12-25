@@ -16,7 +16,7 @@ int Chest::get_level_padlock() const {
 
 
 std::shared_ptr<Object> Chest::try_open(int agility) {
-    if (agility - level_padlock <= 0) {
+    if (agility - level_padlock >= 0) {
         std::shared_ptr<Object> object_temp = std::move(object);
         return object_temp;
     }

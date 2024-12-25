@@ -1,3 +1,8 @@
+/**
+    * \file
+    * \brief Header file with description of functions of class level
+*/
+
 #ifndef LEVEL_H
 #define LEVEL_H
 
@@ -12,16 +17,21 @@
 #include "enemy.h"
 #include "player.h"
 
-class Level {
-    private:
-        Matrix<Cell> map;
-    public:
-        Level() = default;
-        Level(Matrix<Cell> _map): map(_map) {};
 
-        void set_map(Matrix<Cell>);
-        Matrix<Cell> get_map() const;
-        ~Level() = default;
+/**
+    * \class Level
+    * \brief Class Level
+    * 
+    * Contains matrix, constructors and functions
+*/
+class Level {
+    public:
+        Matrix<Cell> map;
+
+        Level() = default;
+        Level(Matrix<Cell>& _map): map(_map) {};
+        Level operator =(const Level &other) {map = other.map; return *this;}
+        ~Level() {};
 };
 
 #endif
